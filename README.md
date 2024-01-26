@@ -1,7 +1,7 @@
 # Getting Started with Calendar by IvyWang
 
-This project provides a calendar picker.
-<img width="964" alt="Project_screenshot" src="https://github.com/ccwang116/calendar-by-ivywang/blob/master/project_screenshot.png">
+This project provides a calendar picker.\
+<img width="350" alt="Project_screenshot" src="https://raw.githubusercontent.com/ccwang116/calendar-by-ivywang/main/project_screenshot.png">
 
 
 ## Available Scripts
