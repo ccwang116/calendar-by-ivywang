@@ -113,7 +113,12 @@ export default function Calendar({
         alignItems={"center"}
         mb={"16px"}
       >
-        <MonthButton onClick={handleMonthNavBackButtonClick}>﹤</MonthButton>
+        <MonthButton
+          onClick={handleMonthNavBackButtonClick}
+          data-testid="prev-button"
+        >
+          ﹤
+        </MonthButton>
         {showDropdown ? (
           <>
             <Select
@@ -142,12 +147,18 @@ export default function Calendar({
             </Select>
           </>
         ) : (
-          <>
-            {year.toString()}年{month.toString()}月
-          </>
+          <div>
+            <span>{year.toString()}年</span>
+            <span>{month.toString()}月</span>
+          </div>
         )}
 
-        <MonthButton onClick={handleMonthNavForwardButtonClick}>﹥</MonthButton>
+        <MonthButton
+          data-testid="next-button"
+          onClick={handleMonthNavForwardButtonClick}
+        >
+          ﹥
+        </MonthButton>
       </Stack>
       {showDaysOfWeek && (
         <Grid
