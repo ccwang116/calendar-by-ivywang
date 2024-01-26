@@ -204,6 +204,7 @@ export default function Calendar({
               square
               elevation={0}
               sx={{
+                cursor: "pointer",
                 bgcolor: isBetweenDuration(day.dateString, startDate, endDate)
                   ? "#006edc"
                   : day.dateString === dayjs().format("YYYY-MM-DD")
