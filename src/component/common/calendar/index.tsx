@@ -12,7 +12,6 @@ import {
   createDaysForCurrentMonth,
   createDaysForNextMonth,
   createDaysForPreviousMonth,
-  isWeekendDay,
   getMonthDropdownOptions,
   getYearDropdownOptions,
 } from "./helpers";
@@ -82,8 +81,8 @@ export default function Calendar({
     let nextYear = parseInt(evt.target.value, 10);
     onYearAndMonthChange([nextYear, nextMonth]);
   };
-  const displayTextColor = (isCurrenMonth: boolean, isWeekend: boolean) => {
-    return isCurrenMonth ? "text.primary" : "#757575";
+  const displayTextColor = (isCurrenMonth: boolean, isSelected: boolean) => {
+    return isSelected ? "#fff" : isCurrenMonth ? "text.primary" : "#757575";
   };
   const MonthButton = (props: any) => (
     <Button
@@ -93,7 +92,7 @@ export default function Calendar({
         height: "44px",
         padding: 0,
         borderRadius: 0,
-        color: "black",
+        color: "text.primary",
         "&:hover": { backgroundColor: "#e6e6e6" },
       }}
       {...props}
@@ -196,6 +195,14 @@ export default function Calendar({
                     : day.dateString === dayjs().format("YYYY-MM-DD")
                     ? "#ffff76"
                     : "inherit",
+                "&:hover": {
+                  bgcolor:
+                    selectedDate === day.dateString
+                      ? "#006edc"
+                      : day.dateString === dayjs().format("YYYY-MM-DD")
+                      ? "#ffff76"
+                      : "#e6e6e6",
+                },
               }}
             >
               <Box
@@ -208,7 +215,7 @@ export default function Calendar({
                   fontSize: "16px",
                   color: displayTextColor(
                     day.isCurrentMonth,
-                    isWeekendDay(day.dateString)
+                    selectedDate === day.dateString
                   ),
                 }}
               >
