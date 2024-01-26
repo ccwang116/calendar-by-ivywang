@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -14,15 +15,14 @@ import {
   createDaysForPreviousMonth,
   getMonthDropdownOptions,
   getYearDropdownOptions,
+  isBetweenDuration,
 } from "./helpers";
 import { DayProps } from "../../../models/calendar.model";
 
 interface Props {
   yearAndMonth: number[];
   onYearAndMonthChange: (arg: number[]) => void;
-  renderDay: (obj: DayProps) => JSX.Element;
-  selectedDate: string;
-  setSelectedDate: (arg: string) => void;
+  renderDay?: (obj: DayProps) => JSX.Element;
   showDropdown?: boolean;
   showDaysOfWeek?: boolean;
 }
@@ -30,14 +30,18 @@ interface Props {
 export default function Calendar({
   yearAndMonth = [2021, 6],
   onYearAndMonthChange,
-  renderDay = (obj: DayProps) => <></>,
-  selectedDate,
-  setSelectedDate,
+  renderDay = (obj: DayProps) => <CalendarDayHeader calendarDayObject={obj} />,
   showDropdown,
   showDaysOfWeek,
 }: Props) {
   const [year, month] = yearAndMonth;
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
+  const handleDatePick = (dateString: string) => {
+    setStartDate(endDate);
+    setEndDate(dateString);
+  };
   let currentMonthDays = createDaysForCurrentMonth(year, month);
   let previousMonthDays = createDaysForPreviousMonth(
     year,
@@ -183,25 +187,23 @@ export default function Calendar({
             item
             md={"auto"}
             key={day.dateString}
-            onClick={() => setSelectedDate(day.dateString)}
+            onClick={() => handleDatePick(day.dateString)}
           >
             <Paper
               square
               elevation={0}
               sx={{
-                bgcolor:
-                  selectedDate === day.dateString
+                bgcolor: isBetweenDuration(day.dateString, startDate, endDate)
+                  ? "#006edc"
+                  : day.dateString === dayjs().format("YYYY-MM-DD")
+                  ? "#ffff76"
+                  : "inherit",
+                "&:hover": {
+                  bgcolor: isBetweenDuration(day.dateString, startDate, endDate)
                     ? "#006edc"
                     : day.dateString === dayjs().format("YYYY-MM-DD")
                     ? "#ffff76"
-                    : "inherit",
-                "&:hover": {
-                  bgcolor:
-                    selectedDate === day.dateString
-                      ? "#006edc"
-                      : day.dateString === dayjs().format("YYYY-MM-DD")
-                      ? "#ffff76"
-                      : "#e6e6e6",
+                    : "#e6e6e6",
                 },
               }}
             >
@@ -215,7 +217,7 @@ export default function Calendar({
                   fontSize: "16px",
                   color: displayTextColor(
                     day.isCurrentMonth,
-                    selectedDate === day.dateString
+                    isBetweenDuration(day.dateString, startDate, endDate)
                   ),
                 }}
               >

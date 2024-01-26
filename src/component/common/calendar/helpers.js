@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import weekOfYear from "dayjs/plugin/weekOfYear";
+import isBetween from "dayjs/plugin/isBetween";
 
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
+dayjs.extend(isBetween);
 
 function range(startAt = 0, size) {
   return [...Array(size - startAt).keys()].map((i) => i + startAt);
@@ -92,4 +94,8 @@ export function getWeekday(dateString) {
 
 export function isWeekendDay(dateString) {
   return [6, 0].includes(getWeekday(dateString));
+}
+export function isBetweenDuration(dateString, startDate, endDate) {
+  if ([startDate, endDate].includes(dateString)) return true;
+  return dayjs(dateString).isBetween(startDate, dayjs(endDate));
 }
