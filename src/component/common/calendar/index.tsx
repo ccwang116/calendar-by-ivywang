@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import Button, { ButtonProps } from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
@@ -88,7 +88,7 @@ export default function Calendar({
   const displayTextColor = (isCurrenMonth: boolean, isSelected: boolean) => {
     return isSelected ? "#fff" : isCurrenMonth ? "text.primary" : "#757575";
   };
-  const MonthButton = (props: any) => (
+  const MonthButton = (props: ButtonProps) => (
     <Button
       sx={{
         width: "44px",
